@@ -1,0 +1,195 @@
+#include "stdafx.h"
+#include <iostream>
+using namespace std;
+
+int new_old_menu(){
+	int menu1;
+	cout << "A은행 예금상품" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "LowAccount상품:   입금시 1%적립 출금수수료 100원 입금은 10,000원부터" << endl;
+	cout << "MidAccount상품:   입금시 2%적립 출금수수료 100원 입금은 10,000원부터" << endl;
+	cout << "HighAccount상품:  입금시 4%적립 출금수수료 100원 입금은 10,000원부터" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "신규 가입 이벤트 : 가입 즉시 20,000원 선물" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "1.(신규) LowAccount가입" << endl;
+	cout << "2.(신규) MidAccount가입" << endl;
+	cout << "3.(신규) HighAccount가입" << endl;
+	cout << "4.(기존) LowAccount고객" << endl;
+	cout << "5.(기존) MidAccount고객" << endl;
+	cout << "6.(기존) HighAccount고객" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "번호를 입력하세요:";
+	cin >> menu1;
+	return menu1;
+}
+
+class Account {
+protected:
+	int money;
+public:
+	void queryacc() {  /*잔고조회*/
+		cout << "잔고: " << money << endl;
+	};
+	Account(int start = 0) { money = start; };
+	~Account() {};
+};
+class LowAccount : public Account {
+public:
+	void deposit(int income) {   /*입급*/
+		if (income >= 10000) {
+			money = money + income + (money / 100);
+		}
+		else
+			cout << "입금은 10000원이상부터" << endl;
+	};
+	void withdraw(int outcome) {  /*출금*/
+		money = money - outcome - 100;
+	};
+	LowAccount(int start = 20000) { money = start; };
+	~LowAccount() {};
+};
+class MidAccount : public Account {
+public:
+	void deposit(int income) {   /*입급*/
+		if (income >= 10000) {
+			money = money + income + (money / 50);
+		}
+		else
+			cout << "입금은 10000원이상부터" << endl;
+	};
+	void withdraw(int outcome) {  /*출금*/
+		money = money - outcome - 200;
+	};
+	MidAccount(int start = 20000) { money = start; };
+	~MidAccount() {};
+};
+class HighAccount : public Account {
+public:
+	void deposit(int income) {   /*입급*/
+		if (income >= 10000) {
+			money = money + income + (money / 25);
+		}
+		else
+			cout << "입금은 10000원이상부터" << endl;
+	};
+	void withdraw(int outcome) {  /*출금*/
+		money = money - outcome - 300;
+	};
+	HighAccount(int start = 20000) { money = start; };
+	~HighAccount() {};
+};
+
+
+void main() {
+	int ans1, ans2;
+	int remain=0;
+	int income;
+	int outcome;
+
+	ans1 = new_old_menu();
+	if (ans1 >= 4) {
+		cout << "-------------------------------------------------------------------" << endl;
+		cout << "잔액을 입력하세요 : ";
+		cin >> remain;
+	}
+
+	LowAccount lownew;
+	MidAccount midnew;
+	HighAccount highnew;
+	LowAccount lowold(remain);
+	MidAccount midold(remain);
+	HighAccount highold(remain);
+
+	while (1) {
+		cout << "-------------------------------------------------------------------" << endl;
+		cout << "1.입금" << endl;
+		cout << "2.출금" << endl;
+		cout << "3.잔액조회" << endl;
+		cout << "4.프로그램종료" << endl;
+		cout << "-------------------------------------------------------------------" << endl;
+		cout << "번호를 입력하세요:";
+		cin >> ans2;
+		cout << "-------------------------------------------------------------------" << endl;
+
+		switch (ans2) {
+		case 1:
+			cout << "입금 금액 : ";
+			cin >> income;
+			switch (ans1) {
+			case 1:
+				lownew.deposit(income);
+				break;
+			case 2:
+				midnew.deposit(income);
+				break;
+			case 3:
+				highnew.deposit(income);
+				break;
+			case 4:
+				lowold.deposit(income);
+				break;
+			case 5:
+				midold.deposit(income);
+				break;
+			case 6:
+				highold.deposit(income);
+				break;
+			}
+			continue;
+		case 2:
+			cout << "출금 금액 : ";
+			cin >> outcome;
+			switch (ans1) {
+			case 1:
+				lownew.withdraw(outcome);
+				break;
+			case 2:
+				midnew.withdraw(outcome);
+				break;
+			case 3:
+				highnew.withdraw(outcome);
+				break;
+			case 4:
+				lowold.withdraw(outcome);
+				break;
+			case 5:
+				midold.withdraw(outcome);
+				break;
+			case 6:
+				highold.withdraw(outcome);
+				break;
+			}
+			continue;
+		case 3:
+			switch (ans1) {
+			case 1:
+				lownew.queryacc();
+				break;
+			case 2:
+				midnew.queryacc();
+				break;
+			case 3:
+				highnew.queryacc();
+				break;
+			case 4:
+				lowold.queryacc();
+				break;
+			case 5:
+				midold.queryacc();
+				break;
+			case 6:
+				highold.queryacc();
+				break;
+			}
+			continue;
+		default:
+			cout << "-------------------------------------------------------------------" << endl;
+			cout << "프로그램을 종료합니다." << endl;
+			cout << "-------------------------------------------------------------------" << endl;
+			break;
+		}
+		break;
+	}
+
+}
