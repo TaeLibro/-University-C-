@@ -1,0 +1,117 @@
+#include "stdafx.h"
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+class Manboki {
+private:
+	double steps;
+	double stride;
+	double meter;
+public:
+	ifstream fin;
+	ofstream fout;
+	void ReadData();
+	void SaveData();
+
+	double Getstride() { return stride; };
+	double Getsteps() { return steps; };
+	double Getmeter() { meter = stride * steps;  return meter; };
+	void Walk() { steps++; };
+	void ResetStride(double new_stride) { stride = new_stride; };
+
+	Manboki(double i = 0.6) { stride = i; steps = 0; meter = 0; };
+	~Manboki() {};
+};
+
+int GetInputmenu() {
+	int i;
+	cout << "1. 걷기" << endl;
+	cout << "2. 걸음수 ?" << endl;
+	cout << "3. 이동거리 ?" << endl;
+	cout << "4. 프로그램종료" << endl;
+	cout << "5. 보폭설정" << endl;
+	cout << "메뉴선택: ";
+	cin >> i;
+	return i;
+}
+
+void Manboki::ReadData() {
+	ifstream fin;
+	fin.open("manbo.data", ios::in);
+	if (fin.fail()) {
+		cout << "파일 오픈을 실패했습니다." << endl;
+		cout << "-------------------------------------------" << endl;
+	}
+	else {
+		cout << "파일에 저장된 내용을 모두 읽었습니다." << endl;
+		while (!fin.eof()) {
+			fin >> stride;
+			fin >> steps;
+		}
+		cout << "-------------------------------------------" << endl;
+	}
+}
+void Manboki::SaveData() {
+	ofstream fout;
+	fout.open("manbo.data",ios::app);
+	fout << stride << " ";
+	fout << steps << " ";
+	if (fout.fail()) {
+		cout << "파일 저장을 실패했습니다." << endl;
+	}
+	else {
+		cout << "파일로 저장하였습니다.\n";
+	}
+	fout.close();
+}
+
+void main() {
+	Manboki mydevice(0.7);
+
+	mydevice.ReadData();
+
+	cout << "보폭: " << mydevice.Getstride() << "이동거리: " << mydevice.Getmeter() << "걸음수: " << mydevice.Getsteps() << endl;
+
+	while (1) {
+		switch (GetInputmenu()) {
+		case 1: mydevice.Walk();
+			break;
+		case 2:
+			cout << "걸음수: " << mydevice.Getsteps() << endl;
+			system("pause");
+			break;
+		case 3:
+			cout << "이동거리: " << mydevice.Getmeter() << endl;
+			system("pause");
+			break;
+		case 4:
+			cout << "프로그램을 종료합니다.\n";
+			mydevice.SaveData();
+			exit(0);
+		case 5:
+			double new_stride;
+			cout << "보폭: ";
+			cin >> new_stride;
+			if (new_stride <= 0 || new_stride > 2) {
+				try {
+					if (new_stride <= 0) throw - 1;
+					if (new_stride > 2) throw - 2;
+				}
+				catch (int a) {
+					cout << "-------------------------------------------" << endl;
+					switch (a) {
+					case -1: cout << "보폭이 음수네요 ㅠㅠ" << endl;
+						break;
+					case -2: cout << "보폭이 너무 커요 ㅠㅠ" << endl;
+						break;
+					}
+				}
+			}
+			else {
+				mydevice.ResetStride(new_stride);
+			}
+			break;
+		}
+	}
+}
