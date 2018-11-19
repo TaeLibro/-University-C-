@@ -1,0 +1,51 @@
+#include "stdafx.h"
+#include <iostream>
+using namespace std;
+
+class Complex {
+private:
+	int real;
+	int image;
+public:
+	
+	void ShowComplex() { cout << "real=" << real << "\timage=" << image << endl; };
+
+	void SwapCom1(Complex *des, Complex *src) {
+		Complex tmp = *des;
+		*des = *src; *src = tmp;
+	};
+
+	Complex &SwapCom2(Complex &des, Complex &src) {
+		Complex tmp = des;
+		des = src;
+		src = tmp;
+		return src;
+	};
+
+	Complex(int i = 0, int j = 0) { real = i; image = j; };
+	~Complex() {};
+};
+
+void main() {
+	Complex first(10, 20);
+	Complex second(30, 40);
+	Complex third(50, 60);
+
+	first.ShowComplex();
+	second.ShowComplex();
+	third.ShowComplex();
+	cout << "============================" << endl;
+
+	first.SwapCom1(&first, &second);
+ 
+	first.ShowComplex();
+	second.ShowComplex();
+	third.ShowComplex();
+	cout << "============================" << endl;
+
+	third = first.SwapCom2(second, third);
+
+	first.ShowComplex();
+	second.ShowComplex();
+	third.ShowComplex();
+}
