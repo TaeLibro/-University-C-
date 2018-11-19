@@ -1,0 +1,20 @@
+#include "stdafx.h"
+#include <iostream>
+#define MAX 10
+using namespace std;
+
+int display_menu() {
+	int i;
+	cout << "-----------------------------------\n";
+	cout << "제품관리 프로그램 v9.0 TaeLibro\n";
+	cout << "-----------------------------------\n";
+	cout << "1. 제품등록\n";
+	cout << "2. 제품목록\n";
+	cout << "3. 제품검색\n";
+	cout << "4. 제품수정\n";
+	cout << "5. 제품삭제\n";
+	cout << "6. 프로그램종료\n\n";
+	cout << "명령 (번호를 입력하세요) :";
+	cin >> i;
+	return i;
+}
