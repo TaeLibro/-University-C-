@@ -1,0 +1,89 @@
+#include "stdafx.h"
+#include <iostream>
+using namespace std;
+
+class Avatar {
+private:
+	int energy;
+	int power;
+public:
+	void initial(int a, int b);
+	void check();
+	void eat();
+	void eat(int calorie);
+	void exercise();
+	void exercise(int calorie);
+	void sleep(int a);
+	void lim();
+	Avatar() {
+		initial(10, 11);
+		check();
+	};
+	~Avatar() {
+		initial(0,0);
+		check();
+	};
+};
+
+void Avatar::lim() {
+	if (energy < 1)
+		energy++;
+	if (energy > 100)
+		energy--;
+	if (power < 1)
+		power++;
+	if (power > 100)
+		power--;
+};
+
+void Avatar::initial(int a, int b) {
+	energy = a;
+	power = b;
+};
+void Avatar::check() {
+	cout << "energy : " << energy << endl;
+	cout << "power : " << power << endl;
+	cout << "==========================" << endl;
+};
+void Avatar::eat() {
+	energy++;
+	power--;
+	lim();
+};
+void Avatar::eat(int calorie) {
+	int i;
+	i = calorie / 1000;
+	energy += i;
+	power--;
+};
+
+void Avatar::exercise() {
+	energy--;
+	power++;
+	lim();
+};
+void Avatar::exercise(int calorie) {
+	int i;
+	i = calorie / 80;
+	power += 4 * i;
+	energy -= 4 * i;
+};
+void Avatar::sleep(int a) {
+	energy -= a;
+	power -= a;
+	if (energy < 1)
+		energy = 1;
+	if (power < 1)
+		power = 1;
+};
+
+void main() {
+	Avatar myavatar;
+
+	myavatar.initial(20,25);
+	myavatar.check();
+	myavatar.eat();
+	myavatar.exercise();
+	myavatar.sleep(5);
+	myavatar.check();
+}
