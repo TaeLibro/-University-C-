@@ -1,0 +1,95 @@
+#include "stdafx.h"
+#include <iostream>
+using namespace std;
+
+void main()
+{
+	unsigned char name[5][7];
+	int age[5];
+	unsigned char num[5][14];
+	int mile[5];
+	int i = 0, r = 0;
+	char anser1, anser2, anser3, anser4;
+
+	cout << "---------------------------------------------\n";
+	cout << "3/28, TaeLibro의 프로그램입니다.\n";
+	cout << "---------------------------------------------\n";
+
+	for (r = 0; r < 6; r++) {
+		
+
+		if (r < 5) {
+			cout << "아래 사항을 입력해주세요?\n";
+			cout << "이름:";
+			cin >> name[r];
+			cout << "나이:";
+			cin >> age[r];
+			cout << "핸드폰:";
+			cin >> num[r];
+			cout << "마일리지:";
+			cin >> mile[r];
+			cout << "---------------------------------------------\n";
+			cout << "입력하신 사항이 맞는지 확인해주세요\n";
+			cout << name[r] << "\t" << age[r] << "\t" << num[r] << "\t" << mile[r] << "\n";
+			
+			while (1) {
+				cout << "맞습니까(y/n) ?";
+				cin >> anser1;
+				if (anser1 == 'y') {
+					i = r;
+					name[r][6] = '\0';
+					num[r][13] = '\0';
+					cout << "---------------------------------------------\n";
+					while (1) {
+						cout << "다음 사람을 입력하시겠습니까 (y/n) ?";
+						cin >> anser2;
+						if (anser2 == 'y')
+							break;
+						else if (anser2 == 'n')
+							break;
+						else
+							continue;
+					}
+					break;
+				}
+				else if (anser1 == 'n')
+					break;
+				else
+					continue;
+			}
+			if (anser1 == 'y') {
+				if (anser2 == 'y')
+					continue;
+				else
+					break;
+			}
+			else
+				r--;
+
+		}
+		else {
+			cout << "인원은 5명 까지만 가능합니다.\n";
+			break;
+		}
+
+
+	}
+
+	cout << "---------------------------------------------\n";
+	while (1) {
+		cout << "입력된 인원 전체를 모두 보시겠습니까 (y/n) ?";
+		cin >> anser3;
+		if (anser3 == 'y') {
+			for (r = 0; r <= i; r++) {
+				cout << r + 1 << "번\t" << name[r] << "\t" << age[r] << "\t" << num[r] << "\t" << mile[r] << "점\n";
+			}
+		}
+		cout << "---------------------------------------------\n";
+		cout << "프로그램을 종료하시겠습니까 (y/n) ?";
+		cin >> anser4;
+		if (anser4 == 'y') {
+			cout << "프로그램을 종료합니다.\n";
+			break;
+		}
+	}
+}
