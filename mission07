@@ -1,0 +1,58 @@
+#include "stdafx.h"
+#include <iostream>
+using namespace std;
+
+class Manboki {
+private:
+	double steps;
+	double stride;
+	double meter;
+public:
+	double Getstride() { return stride; };
+	double Getmeter() {
+		meter = stride * steps;
+		return meter; };
+	double Getsteps() { return steps; };
+	void Walk() {
+		steps++;
+	};
+
+
+	Manboki(double i=0.6) { stride = i; steps = 0; meter = 0;};
+	~Manboki() {};
+};
+
+int GetInputmenu() {
+	int i;
+	cout << "1. 걷기" << endl;
+	cout << "2. 걸음수 ?" << endl;
+	cout << "3. 이동거리 ?" << endl;
+	cout << "4. 프로그램종료" << endl;
+	cout << "메뉴선택: ";
+	cin >> i;
+	return i;
+}
+
+void main() {
+	Manboki mydevice(0.7);
+
+	cout << "보폭: " << mydevice.Getstride() << "이동거리: " << mydevice.Getmeter() << "걸음수: " << mydevice.Getsteps() << endl;
+
+	while (1) {
+		switch (GetInputmenu()) {
+		case 1: mydevice.Walk();
+			break;
+		case 2:
+			cout << "걸음수: " << mydevice.Getsteps() << endl;
+			system("pause");
+			break;
+		case 3:
+			cout << "이동거리: " << mydevice.Getmeter() << endl;
+			system("pause");
+			break;
+		case 4:
+			cout << "프로그램을 종료합니다.\n";
+			exit(0);
+		}
+	}
+}
