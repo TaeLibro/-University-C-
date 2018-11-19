@@ -1,0 +1,105 @@
+#include "stdafx.h"
+#include <iostream>
+#define MAX 10
+using namespace std;
+
+int InsertProduct(int l, char m[MAX][20], char n[MAX][20], int p[MAX], char s[MAX][20]) {
+	int r = 0;
+	char *p1, *p2;
+
+	cout << "\n제품을 등록합니다.\n\n";
+
+	if (l < MAX) {
+		cout << "제품모델: ";
+		cin >> m[l];
+		cout << "제품명: ";
+		cin >> n[l];
+		cout << "제품가격: ";
+		cin >> p[l];
+		cout << "제품사양: ";
+		cin >> s[l];
+
+		if (l > 0) {
+			for (int b = 0; b < l; b++) {
+				p1 = m[l];
+				p2 = m[b];
+				while (*p1 == *p2&&*p1 != 0) {
+					p1++;
+					p2++;
+				}
+				if (*p1 - *p2 == 0) {
+					cout << "중복되는 모델명입니다.\n";
+					r--;
+				}
+			}
+		}
+		if (l > 0) {
+			for (int b = 0; b < l; b++) {
+				p1 = n[l];
+				p2 = n[b];
+				while (*p1 == *p2&&*p1 != 0) {
+					p1++;
+					p2++;
+				}
+				if (*p1 - *p2 == 0) {
+					cout << "중복되는 제품명입니다.\n";
+					r--;
+				}
+			}
+		}
+
+	}
+	else
+		r--;
+	return r;
+}
+
+void ListProduct(int l, char m[MAX][20], char n[MAX][20], int p[MAX], char s[MAX][20]) {
+	int a;
+	cout << "\n제품모델" << "\t" << "제품명" << "\t\t" << "제품가격" << "\t" << "제품사양" << "\n";
+	for (a = 0; a < l; a++) {
+		cout << m[a] << "\t\t" << n[a] << "\t\t" << p[a] << "\t\t" << s[a] << "\n";
+	}
+	cout << "\n";
+}
+
+void PrintProduct(int i, char m[MAX][20], char n[MAX][20], int p[MAX], char s[MAX][20]) {
+	cout << "제품모델" << "\t" << "제품명" << "\t\t" << "제품가격" << "\t" << "제품사양" << "\n";
+	cout << m[i] << "\t\t" << n[i] << "\t\t" << p[i] << "\t\t" << s[i] << "\n";
+}
+
+void ModifyProductbyModel(int i, char m[MAX][20], char n[MAX][20], int p[MAX], char s[MAX][20]) {
+	cout << "제품모델:";
+	cin >> m[i];
+	cout << "제품명:";
+	cin >> n[i];
+	cout << "제품가격:";
+	cin >> p[i];
+	cout << "제품사양:";
+	cin >> s[i];
+	cout << "등록을 성공하였습니다.\n";
+}
+
+void DeleteProductbyName(int i, char m[MAX][20], char n[MAX][20], int p[MAX], char s[MAX][20]) {
+
+	int a, b;
+	cout << n[i] << "제품이 삭제되었습니다.\n";
+	for (a = i; a < MAX; a++) {
+		if (i < 9) {
+			for (b = 0; b < 20; b++) {
+				m[a][b] = m[a + 1][b];
+				n[a][b] = n[a + 1][b];
+				s[a][b] = s[a + 1][b];
+			}
+			p[a] = p[a + 1];
+		}
+		else {
+			for (b = 0; b < 20; b++) {
+				m[i][b] = NULL;
+				n[i][b] = NULL;
+				s[i][b] = NULL;
+			}
+			p[i] = NULL;
+		}
+	}
+}
