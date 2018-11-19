@@ -1,0 +1,224 @@
+#include "stdafx.h"
+#include <iostream>
+#define MAX 10
+using namespace std;
+
+int display_menu() {
+	int i;
+	cout << "-----------------------------------\n";
+	cout << "제품관리 프로그램 v9.0 TaeLibro\n";
+	cout << "-----------------------------------\n";
+	cout << "1. 제품등록\n";
+	cout << "2. 제품목록\n";
+	cout << "3. 제품검색\n";
+	cout << "4. 제품수정\n";
+	cout << "5. 제품삭제\n";
+	cout << "6. 프로그램종료\n\n";
+	cout << "명령 (번호를 입력하세요) :";
+	cin >> i;
+	return i;
+}
+
+int InsertProduct(int l, char m[MAX][20], char n[MAX][20], int p[MAX], char s[MAX][20]) {
+	int r = 0;
+	char *p1, *p2;
+
+	cout << "\n제품을 등록합니다.\n\n";
+
+	if (l < MAX) {
+		cout << "제품모델: ";
+		cin >> m[l];
+		cout << "제품명: ";
+		cin >> n[l];
+		cout << "제품가격: ";
+		cin >> p[l];
+		cout << "제품사양: ";
+		cin >> s[l];
+
+		if (l > 0) {
+			for (int a = 0; a < l; a++) {
+				p1 = m[l];
+				p2 = m[a];
+				while (*p1 == *p2&&*p1 != 0) {
+					p1++;
+					p2++;
+				}
+				if (*p1 - *p2 == 0) {
+					cout << "중복되는 모델명입니다.\n";
+					r--;
+				}
+			}
+		}
+		if (l > 0) {
+			for (int b = 0; b < l; b++) {
+				p1 = n[l];
+				p2 = n[b];
+				while (*p1 == *p2&&*p1 != 0) {
+					p1++;
+					p2++;
+				}
+				if (*p1 - *p2 == 0) {
+					cout << "중복되는 제품명입니다.\n";
+					r--;
+				}
+			}
+		}
+
+	}
+	else
+		r--;
+	return r;
+}
+
+void ListProduct(int l, char m[MAX][20], char n[MAX][20], int p[MAX], char s[MAX][20]) {
+	int a;
+	cout << "\n제품모델\t제품명\t\t제품가격\t제품사양\n";
+	for (a = 0; a < l; a++) {
+		cout << m[a] << "\t\t" << n[a] << "\t\t" << p[a] << "\t\t" << s[a] << "\n";
+	}
+	cout << "\n";
+}
+
+
+int SearchProductbyName(char n[MAX][20]) {
+	char a[1][20] = { NULL };
+	int i = -1, p;
+	char *p1, *p2;
+
+	
+	cin >> a[0];
+
+	for (int b = 0; b < MAX; b++) {
+		p1 = a[0];
+		p2 = n[b];
+		while (*p1 == *p2&&*p1 != 0) {
+			p1++;
+			p2++;
+		}
+		p = *p1 - *p2;
+		if (p == 0)
+			i = b;
+	}
+	return i;
+}
+
+int SearchProductbyModel(char m[MAX][20]) {
+	char a[1][20] = { NULL };
+	int i = -1, p;
+	char *p1, *p2;
+
+	cout << "\n수정할 제품모델은?";
+	cin >> a[0];
+
+	for (int b = 0; b < MAX; b++) {
+		p1 = a[0];
+		p2 = m[b];
+		while (*p1 == *p2&&*p1 != 0) {
+			p1++;
+			p2++;
+		}
+		p = *p1 - *p2;
+		if (p == 0)
+			i = b;
+	}
+	return i;
+}
+
+void PrintProduct(int i, char m[MAX][20], char n[MAX][20], int p[MAX], char s[MAX][20]) {
+	cout << "제품모델" << "\t" << "제품명" << "\t\t" << "제품가격" << "\t" << "제품사양" << "\n";
+	cout << m[i] << "\t\t" << n[i] << "\t\t" << p[i] << "\t\t" << s[i] << "\n";
+}
+
+void ModifyProductbyModel(int i, char m[MAX][20], char n[MAX][20], int p[MAX], char s[MAX][20]) {
+	cout << "제품모델:";
+	cin >> m[i];
+	cout << "제품명:";
+	cin >> n[i];
+	cout << "제품가격:";
+	cin >> p[i];
+	cout << "제품사양:";
+	cin >> s[i];
+	cout << "등록을 성공하였습니다.\n";
+}
+
+void DeleteProductbyName(int i, char m[MAX][20], char n[MAX][20], int p[MAX], char s[MAX][20]) {
+
+	int a, b;
+	cout << n[i] << "제품이 삭제되었습니다.\n";
+	for (a = i; a < MAX; a++) {
+		if (i < 9) {
+			for (b = 0; b < 20; b++) {
+				m[a][b] = m[a + 1][b];
+				n[a][b] = n[a + 1][b];
+				s[a][b] = s[a + 1][b];
+			}
+			p[a] = p[a + 1];
+		}
+		else {
+			for (b = 0; b < 20; b++) {
+				m[i][b] = NULL;
+				n[i][b] = NULL;
+				s[i][b] = NULL;
+			}
+			p[i] = NULL;
+		}
+	}
+}
+
+int main() {
+	char p_model[MAX][20] = { NULL };
+	char p_name[MAX][20] = { NULL };
+	int p_price[MAX] = { NULL };
+	char p_spec[MAX][20] = { NULL };
+	int  index = 0, result, lastindex = 0;
+
+	while (1) {
+		switch (display_menu()) {
+		case 1:
+			result = InsertProduct(lastindex++, p_model, p_name, p_price, p_spec);
+			if (result < 0) {
+				cout << "제품등록에 실패하였습니다." << endl;
+				lastindex--;
+			}
+			else
+				cout << "등록을 성공하였습니다.\n";
+			system("pause");
+			break;
+		case 2:
+			ListProduct(lastindex, p_model, p_name, p_price, p_spec);
+			system("pause");
+			break;
+		case 3:
+			cout << "\n검색할 제품명은?";
+			index = SearchProductbyName(p_name);
+			if (index < 0)
+				cout << "제품검색에 실패하였습니다." << endl;
+			else
+				PrintProduct(index, p_model, p_name, p_price, p_spec);
+			break;
+		case 4:
+			index = SearchProductbyModel(p_model);
+			if (index < 0)
+				cout << "제품수정에 실패하였습니다." << endl;
+			else
+				ModifyProductbyModel(index, p_model, p_name, p_price, p_spec);
+			break;
+		case 5:
+			cout << "\n삭제할 제품명은?";
+			index = SearchProductbyName(p_name);
+			if (index < 0)
+				cout << "제품삭제에 실패하였습니다." << endl;
+			else {
+				DeleteProductbyName(index, p_model, p_name, p_price, p_spec);
+				lastindex--;
+			}
+			break;
+		case 6:
+			cout << "프로그램을 종료합니다." << endl;
+			exit(0);
+		default:
+			cout << "선택하신 기능은 지원되지 않습니다." << endl;
+			break;
+		}
+	}
+}
