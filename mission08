@@ -1,0 +1,64 @@
+#include "stdafx.h"
+#include <iostream>
+using namespace std;
+
+# define n 10        /*가입한 인터넷 개수*/
+
+class Site {
+private:
+	char name[20];
+	char url[20];
+	char id[20];
+	char pw[20];
+public:
+	void Register() {
+		cout << "사이트명: ";
+		cin >> name;
+		cout << "인터넷주소: ";
+		cin >> url;
+		cout << "아이디: ";
+		cin >> id;
+		cout << "비밀번호: ";
+		cin >> pw;
+	};
+
+	void List() {
+		cout << name << "\t" << id << "\t" << pw << endl;
+	};
+	Site() {};
+	~Site() { delete[] this; };
+};
+
+void main() {
+	Site *mysite = new Site[n];
+
+	cout << "---------------------------------" << endl;
+	cout << "사이트 가입정보 등록프로그램 v1.0" << endl;
+	cout << "---------------------------------" << endl;
+
+	int i = 0;
+
+	while (1) {
+		char ans;
+
+		mysite[i].Register();
+		i++;
+
+		cout << "---------------------------------" << endl;
+		cout << "등록을 더 하시겠습니까 (y/n) ?";
+		cin >> ans;
+		cout << "---------------------------------" << endl;
+		if (ans == 'y')
+			continue;
+		else if (ans == 'n') {
+			for (int a = 0; a < i; a++) 
+				mysite[a].List();
+			cout << "프로그램을 종료합니다.\n";
+			break;
+		}
+		else {
+			cout << "잘못된 입력입니다.\n";
+			break;
+		}
+	}
+}
