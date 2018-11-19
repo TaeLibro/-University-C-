@@ -1,0 +1,124 @@
+#include "stdafx.h"
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+# define n 10        /*가입한 인터넷 개수*/
+# define k 20        /* 입력 크기 */
+
+class Site {
+private:
+	char name[k];
+	char url[k];
+	char id[k];
+	char pw[k];
+public:
+	ifstream fin;
+	ofstream fout;
+	void Register();
+	void List() {
+		cout << name << "\t" << id << "\t" << pw << endl;
+	};
+
+	int Readdata(Site arr[n]);
+
+	Site() {};
+	~Site() { delete[] this; };
+};
+
+
+void Site::Register() {
+	fout.open("siteinfo.data", ios::app);
+	cout << "사이트명: ";
+	cin >> name;
+	fout << name << " ";
+
+	cout << "인터넷주소: ";
+	cin >> url;
+	fout << url << " ";
+
+	cout << "아이디: ";
+	cin >> id;
+	fout << id << " ";
+
+	cout << "비밀번호: ";
+	cin >> pw;
+	fout << pw << " ";
+
+	fout.close();
+}
+
+int Site::Readdata(Site arr[n]) {
+	int i = 0, j = 0;
+	fin.open("siteinfo.data", ios::in);
+	while (1) {
+		fin >> arr[i].name;
+		fin >> arr[i].url;
+		fin >> arr[i].id;
+		fin >> arr[i].pw;
+		i++; j++;
+		if (fin.eof()) {
+			i--; j--;
+			break;
+		}
+	}
+	fin.close();
+	return j;
+}
+
+
+
+int main()
+{
+	ifstream fin;
+	ofstream fout;
+	Site *mysite = new Site[n];
+
+	cout << "-------------------------------------------" << endl;
+	cout << "사이트 가입정보 등록프로그램 v1.0(파일버전)" << endl;
+	cout << "-------------------------------------------" << endl;
+
+	int j;
+	fin.open("siteinfo.data", ios::in);
+	if (fin.fail()) {
+		cout << "파일 오픈을 실패했습니다." << endl;
+		j = 0;
+	}
+	else {
+		cout << "파일에 저장된 내용을 모두 읽었습니다." << endl;
+		j = mysite->Readdata(mysite);
+		for (int a = 0; a <= j; a++)
+			mysite[a].List();
+		cout << "-------------------------------------------" << endl;
+	}
+
+	while (1) {
+		char ans;
+
+		mysite[j].Register();
+		j++;
+
+		cout << "---------------------------------" << endl;
+		cout << "등록을 더 하시겠습니까 (y/n) ?";
+		cin >> ans;
+		cout << "---------------------------------" << endl;
+		if (ans == 'y')
+			continue;
+		else if (ans == 'n') {
+			for (int a = 0; a < j; a++)
+				mysite[a].List();
+			if (fout.fail()) {
+				cout << "파일 저장을 실패했습니다." << endl;
+			}
+			else {
+				cout << "파일로 저장하였습니다.\n";
+			}
+			cout << "프로그램을 종료합니다.\n";
+			break;
+		}
+		else {
+			cout << "잘못된 입력입니다.\n";
+			break;
+		}
+	}
+}
