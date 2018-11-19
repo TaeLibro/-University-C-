@@ -1,0 +1,71 @@
+#include "stdafx.h"
+#include <iostream>
+#define MAX 10
+using namespace std;
+
+extern int display_menu();
+extern int SearchProductbyName(char n[MAX][20]);
+extern int SearchProductbyModel(char m[MAX][20]);
+extern int InsertProduct(int l, char m[MAX][20], char n[MAX][20], int p[MAX], char s[MAX][20]);
+extern void ListProduct(int l, char m[MAX][20], char n[MAX][20], int p[MAX], char s[MAX][20]);
+extern void PrintProduct(int i, char m[MAX][20], char n[MAX][20], int p[MAX], char s[MAX][20]);
+extern void ModifyProductbyModel(int i, char m[MAX][20], char n[MAX][20], int p[MAX], char s[MAX][20]);
+extern void DeleteProductbyName(int i, char m[MAX][20], char n[MAX][20], int p[MAX], char s[MAX][20]);
+
+
+
+int main() {
+	char p_model[MAX][20] = { NULL };
+	char p_name[MAX][20] = { NULL };
+	int p_price[MAX] = { NULL };
+	char p_spec[MAX][20] = { NULL };
+	int  index = 0, result, lastindex = 0;
+
+	while (1) {
+		switch (display_menu()) {
+		case 1:
+			result = InsertProduct(lastindex++, p_model, p_name, p_price, p_spec);
+			if (result < 0) {
+				cout << "제품등록에 실패하였습니다." << endl;
+				lastindex--;
+			}
+			else
+				cout << "등록을 성공하였습니다.\n";
+			system("pause");
+			break;
+		case 2:
+			ListProduct(lastindex, p_model, p_name, p_price, p_spec);
+			system("pause");
+			break;
+		case 3:
+			index = SearchProductbyName(p_name);
+			if (index < 0)
+				cout << "제품검색에 실패하였습니다." << endl;
+			else
+				PrintProduct(index, p_model, p_name, p_price, p_spec);
+			break;
+		case 4:
+			index = SearchProductbyModel(p_model);
+			if (index < 0)
+				cout << "제품수정에 실패하였습니다." << endl;
+			else
+				ModifyProductbyModel(index, p_model, p_name, p_price, p_spec);
+			break;
+		case 5:
+			index = SearchProductbyName(p_name);
+			if (index < 0)
+				cout << "제품삭제에 실패하였습니다." << endl;
+			else {
+				DeleteProductbyName(index, p_model, p_name, p_price, p_spec);
+				lastindex--;
+			}
+			break;
+		case 6:
+			cout << "프로그램을 종료합니다." << endl;
+			exit(0);
+		default:
+			cout << "선택하신 기능은 지원되지 않습니다." << endl;
+			break;
+		}
+	}
+}
